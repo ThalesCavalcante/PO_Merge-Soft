@@ -2,7 +2,7 @@ import timeit
 from random import randint
 import matplotlib.pyplot as plt
 import sys
-
+from random import shuffle
 sys.setrecursionlimit(10**6)
 
 
@@ -15,13 +15,10 @@ def desenhaGrafico(x, y, xl="Entradas", yl="Saidas", name="out"):
     plt.xlabel(xl)
     plt.savefig(name)
 
-
-def generateList(size):
-    list = []
-    while size:
-        list.append(size)
-        size -= 1
-    return list
+def geraLista(tam):
+    lista = list(range(1, tam + 1))
+    shuffle(lista)
+    return lista
 
 
 def mergeSort(lista): 
@@ -55,14 +52,14 @@ def mergeSort(lista):
             k+=1
 
 
-size = [100000, 200000, 400000, 5000000, 1000000, 2000000]
+size = [100000, 200000, 400000, 500000, 1000000, 2000000]
 time = []
 
 for s in size:
-    lista = generateList(s)
-    time.append(timeit.timeit("mergeSoft({})".format(lista),
-                              setup="from __main__ import mergeSoft", number=1))
+    lista = geraLista(s)
+    time.append(timeit.timeit("mergeSort({})".format(lista),
+                              setup="from __main__ import mergeSort", number=1))
     print(s)
 
 desenhaGrafico(size, time, "Size", "Time",
-               "MergeSoft.png")
+               "MergeSort.png")
